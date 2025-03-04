@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Zoom Meeting</title>
+    <script src="https://source.zoom.us/2.16.0/lib/vendor/react.min.js"></script>
+    <script src="https://source.zoom.us/2.16.0/lib/vendor/react-dom.min.js"></script>
+    <script src="https://source.zoom.us/2.16.0/lib/vendor/redux.min.js"></script>
+    <script src="https://source.zoom.us/2.16.0/lib/vendor/redux-thunk.min.js"></script>
+    <script src="https://source.zoom.us/2.16.0/lib/vendor/jquery.min.js"></script>
+    <script src="https://source.zoom.us/zoom-meeting-2.16.0.min.js"></script>
+    <link rel="stylesheet" href="https://source.zoom.us/2.16.0/css/bootstrap.css" />
+    <link rel="stylesheet" href="https://source.zoom.us/2.16.0/css/react-select.css" />
+</head>
+<body>
+    <div id="zmmtg-root"></div>
+    <script>
+        ZoomMtg.setZoomJSLib("https://source.zoom.us/2.16.0/lib", "/av");
+        ZoomMtg.preLoadWasm();
+        ZoomMtg.prepareJssdk();
+
+        // API Credentials
+        const API_KEY = "YOUR_ZOOM_API_KEY";
+        const API_SECRET = "YOUR_ZOOM_API_SECRET";
+        
+        // Get meeting details from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const meetingId = urlParams.get("meetingId");
+        const password = urlParams.get("password");
+
+        function startMeeting(signature) {
+            ZoomMtg.init({
+                leaveUrl: "https://yourwebsite.com",
+                success: () => {
+                    ZoomMtg.join({
+                        signature: signature,
+                        meetingNumber: meetingId,
+                        userName: "Guest User",
+                        apiKey: API_KEY,
+                        userEmail: "",
+                        passWord: password,
+                        success: () => {
+                            console.log("Meeting joined");
+                        },
+                        error: (error) => {
+                            console.error("Error joining meeting:", error);
+                        }
+                    });
+                },
+                error: (error) => {
+                    console.error("Zoom Init Error:", error);
+                }
+            });
+        }
+
+        // Generate signature using your backend
+        fetch(`https://yourbackend.com/generateSignature?meetingId=${meetingId}`)
+            .then(response => response.json())
+            .then(data => startMeeting(data.signature))
+            .catch(error => console.error("Signature Fetch Error:", error));
+    </script>
+</body>
+</html>
