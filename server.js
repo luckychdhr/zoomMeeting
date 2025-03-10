@@ -116,6 +116,7 @@ app.get('/get-meetings', async (req, res) => {
         res.status(500).send('Error generating token');
     }
     try {
+        console.log('meetings:::',meetings)
         // const meetings = await getZoomMeetingList(zoomApiKey?.access_token);
         res.json(meetings)
     } catch (error) {
