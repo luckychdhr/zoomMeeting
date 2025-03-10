@@ -10,6 +10,10 @@ const ZOOM_API_URL = 'https://api.zoom.us/v2/users/me/meetings';
 app.use(cors());
 app.use(express.json());
 
+let users = ['Lucky', 'Siddarth']
+
+let meetings = []
+
 const SDKKEY = 'LATo4UKZSCS8v9YO7NYCDQ'
 const SDKSECRET = 'tSrg97iKk3TN3RuTq4ZfZc27y9urK6Hf'
 
@@ -97,7 +101,9 @@ app.post('/create-meeting', async (req, res) => {
 
     try {
         const response = await axios.post(ZOOM_API_URL, meetingDetails, { headers });
-        res.json(response.data);
+        const obj = { ...response.data, username: meetingDetails?.username || '' }
+        meetings = [obj, ...meetings]
+        res.json(obj);
     } catch (error) {
         console.error('Error creating Zoom meeting:', error);
         res.status(500).send('Error creating Zoom meeting');
@@ -105,15 +111,12 @@ app.post('/create-meeting', async (req, res) => {
 });
 
 app.get('/get-meetings', async (req, res) => {
-    console.log('above')
-
     const zoomApiKey = await getZoomToken()
-    console.log('below')
     if (!zoomApiKey?.access_token) {
         res.status(500).send('Error generating token');
     }
     try {
-        const meetings = await getZoomMeetingList(zoomApiKey?.access_token);
+        // const meetings = await getZoomMeetingList(zoomApiKey?.access_token);
         res.json(meetings)
     } catch (error) {
         res.status(500).send('Error fetching meetings');
@@ -124,4 +127,3 @@ app.get('/get-meetings', async (req, res) => {
 app.listen(port, () => {
     console.log(`Backend server running on http://localhost:${port}`);
 });
-
