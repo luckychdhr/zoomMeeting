@@ -1,25 +1,34 @@
 import axios from 'axios';
 
+
+const BASE_URL = 'https://zoommeeting-uagx.onrender.com';
+// const BASE_URL = 'http://localhost:5000';
+
 export const createZoomMeeting = async () => {
+
+  const currentDate = new Date()
+  // const futureDate = new Date(currentDate.getTime() + 100 * 60 * 1000);
 
   const meetingDetails = {
     topic: 'Test Meeting',
     type: 2, // Scheduled meeting
-    start_time: '2025-03-08T13:08:00Z', 
+    // start_time: futureDate,
+    start_time: '2025-03-12T15:08:00Z', 
     duration: 30, // 30 minutes
     timezone: 'Asia/Kolkata', // Adjust to your time zone
-    agenda: 'Discuss project updates',
+    agenda: 'Test Meeting 21',
     settings: {
       host_video: true,
       participant_video: true,
-      join_before_host: true,
+      join_before_host: false,
+      // join_before_host: true,
       mute_upon_entry: true,
       audio: 'voip',
     },
   };
 
   try {
-    const response = await axios.post('http://localhost:5000/create-meeting', meetingDetails);
+    const response = await axios.post(`${BASE_URL}/create-meeting`, meetingDetails);
     console.log('Meeting Created:', response.data);
     return response.data
   } catch (error) {
@@ -28,20 +37,20 @@ export const createZoomMeeting = async () => {
 };
 
 export const fetchMeetings = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/get-meetings');
-      console.log('Meetings:', response.data);
-    } catch (error) {
-      console.error('Error fetching meetings:', error);
-    }
+  try {
+    const response = await axios.get(`${BASE_URL}/get-meetings`);
+    console.log('Meetings:', response.data);
+  } catch (error) {
+    console.error('Error fetching meetings:', error);
   }
+}
 
 
 export const getJWT = async (data) => {
-    try {
-      const response = await axios.post('http://localhost:5000/get-jwt',data);
-      return response?.data
-    } catch (error) {
-      console.error('Error fetching meetings:', error);
-    }
+  try {
+    const response = await axios.post(`${BASE_URL}/get-jwt`, data);
+    return response?.data
+  } catch (error) {
+    console.error('Error fetching meetings:', error);
   }
+}
