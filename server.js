@@ -7,7 +7,7 @@ const KJUR = require('jsrsasign')
 
 const ZOOM_API_URL = 'https://api.zoom.us/v2/users/me/meetings';
 
-// app.use(cors());
+app.use(cors());
 app.use(express.json());
 
 const SDKKEY = 'LATo4UKZSCS8v9YO7NYCDQ'
