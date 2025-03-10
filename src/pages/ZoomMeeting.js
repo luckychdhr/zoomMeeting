@@ -18,31 +18,11 @@ const ZoomMeeting = () => {
         }
     };
 
-    const getMeetings = async () => {
-        try {
-            const data = await fetchMeetings();
-            console.log('fetchMeetings:::', data);
-
-        } catch (err) {
-            setError('Error creating the meeting. Please try again.');
-        }
-    };
-
-    const getJWTToken = async () => {
-        try {
-            const data = await getJWT({ meetingId: 94311592106 });
-            console.log('getJWTgetJWTgetJWTgetJWT:::', data);
-
-        } catch (err) {
-            setError('Error creating the meeting. Please try again.');
-        }
-    };
-
     return (
         <div>
             <h1>Zoom Meeting Creation</h1>
             <button onClick={handleCreateMeeting}>Create Zoom Meeting</button>
-            <button onClick={getMeetings}>getMeetings</button>
+            {/* <button onClick={getMeetings}>getMeetings</button> */}
 
             {error && <p style={{ color: 'red' }}>{error}</p>}
 
@@ -50,12 +30,9 @@ const ZoomMeeting = () => {
                 <div>
                     <h2>Meeting Created!</h2>
                     <p><strong>Topic:</strong> {meetingDetails.topic}</p>
-                    <p><strong>Join URL:</strong> <a href={meetingDetails.join_url} target="_blank" rel="noopener noreferrer">Join Now</a></p>
+                    <p><strong>Start Meeting:</strong> <a href={meetingDetails.start_url} target="_blank" rel="noopener noreferrer">Join Now</a></p>
                     <p><strong>Meeting ID:</strong> {meetingDetails.id}</p>
                     <p><strong>Start Time:</strong> {new Date(meetingDetails.start_time).toLocaleString()}</p>
-                    <button onClick={getMeetings}>
-                        Fetch
-                    </button>
                 </div>
             )}
         </div>
