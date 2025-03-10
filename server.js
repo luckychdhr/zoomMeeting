@@ -96,7 +96,7 @@ app.post('/create-meeting', async (req, res) => {
     };
 
     try {
-        const response = await axios.post(zoomApiKey.access_token, meetingDetails, { headers });
+        const response = await axios.post(ZOOM_API_URL, meetingDetails, { headers });
         res.json(response.data);
     } catch (error) {
         console.error('Error creating Zoom meeting:', error);
