@@ -120,6 +120,7 @@ app.get('/get-meetings', async (req, res) => {
         // const meetings = await getZoomMeetingList(zoomApiKey?.access_token);
         res.json(meetings)
     } catch (error) {
+        console.error('Error creating Zoom meeting:', error);
         res.status(500).send('Error fetching meetings');
     }
 });
