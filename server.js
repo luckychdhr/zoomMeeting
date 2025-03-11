@@ -14,20 +14,21 @@ let users = ['Lucky', 'Siddarth']
 
 let meetings = []
 
-const SDKKEY = 'LATo4UKZSCS8v9YO7NYCDQ'
-const SDKSECRET = 'tSrg97iKk3TN3RuTq4ZfZc27y9urK6Hf'
+const SDKKEY = process.env.SDKKEY
+const SDKSECRET = process.env.SDKSECRET
+const AUTH = process.env.AUTH
 
 const getZoomToken = async () => {
     const url = 'https://zoom.us/oauth/token';
 
     const headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: 'Basic ZGl1dElCejdScUdZdkpFemRubGxwUTozUFhYa05zakd3Vm13c1IweHNabmY5YVI3cE5vSXBkRw==',
+        Authorization: `Basic ${AUTH}`,
     };
 
     const data = new URLSearchParams({
         grant_type: 'account_credentials',
-        account_id: '_undWF6qRXWeB_TAe2rPYQ',
+        account_id: 'pAlWVb6EToWWtH3QZ45_4A',
     });
 
     try {
